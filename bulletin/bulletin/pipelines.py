@@ -9,8 +9,8 @@ class Base(DeclarativeBase):
     pass
 
 
-class Oil(Base):
-    __tablename__ = 'oil'
+class SpimexTradingResult(Base):
+    __tablename__ = 'spimex_trading_results'
 
     id: Mapped[int] = mapped_column(primary_key=True)
     exchange_product_id: Mapped[str] = mapped_column()
@@ -47,7 +47,9 @@ class BulletinPipeline:
             rows = res_df.iloc[index].to_list()
             if rows[1] in ('Итого:', 'Итого: ', ' Итого:', 'Итого по секции:'):
                 break
-            new_oil = Oil(
+            if rows[14] == '-':
+                continue
+            new_oil = SpimexTradingResult(
                 exchange_product_id=rows[1],
                 exchange_product_name=rows[2],
                 oil_id=rows[1][:4],
