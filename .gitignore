@@ -1,0 +1,4 @@
+.venv
+download/
+sqlite_oil.db
+__pycache__
